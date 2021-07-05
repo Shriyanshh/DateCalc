@@ -1,0 +1,139 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Calculator</title>
+<meta name="DESCRIPTION" content="Calcualte the difference in days, hours, minutes, and seconds between two dates.">
+<meta name="KEYWORDS" content="day, date, difference, hour, minute, second, between">
+
+<script language="javascript" type="text/javascript">
+function p (i)
+{
+	return Math.floor(i / 10) + "" + i % 10;
+}
+
+function init ()
+{
+	var form = document.getElementById('form');
+	var date = new Date();
+	var s = p(date.getMonth() + 1) + "/" + p(date.getDate()) + "/" + date.getFullYear() + " " + p(date.getHours()) + ":" + p(date.getMinutes()) + ":" + p(date.getSeconds());
+	if (form.date1.value == "")
+		form.date1.value = s;
+	if (form.date2.value == "")
+		form.date2.value = s;
+}
+
+function trunc (i)
+{
+	var j = Math.round(i * 100);
+	return Math.floor(j / 100) + (j % 100 > 0 ? "." + p(j % 100) : "");
+}
+
+function calculate (form)
+{
+	var date1 = new Date(form.date1.value);
+	var date2 = new Date(form.date2.value);
+	var sec = date2.getTime() - date1.getTime();
+	if (isNaN(sec))
+	{
+		alert("Input data is incorrect!");
+		return;
+	}
+	if (sec < 0)
+	{
+		alert("The second date occurred earlier than the first one!");
+		return;
+	}
+
+	var second = 1000, minute = 60 * second, hour = 60 * minute, day = 24 * hour;
+
+	form.result_h.value = trunc(sec / hour);
+	form.result_m.value = trunc(sec / minute);
+	form.result_s.value = trunc(sec / second);
+	var days = Math.floor(sec / day);
+	sec -= days * day;
+	var hours = Math.floor(sec / hour);
+	sec -= hours * hour;
+	var minutes = Math.floor(sec / minute);
+	sec -= minutes * minute;
+	var seconds = Math.floor(sec / second);
+	form.result.value = days + " day" + (days != 1 ? "s" : "") + ", " + hours + " hour" + (hours != 1 ? "s" : "") + ", " + minutes + " minute" + (minutes != 1 ? "s" : "") + ", " + seconds + " second" + (seconds != 1 ? "s" : "");
+}
+</script>
+<style>
+body {
+	background-color: #e7e7e7;
+}
+</style>
+</head>
+
+<body>
+<center>
+	<br></br>
+<h1>JavaScript Calculator - days, year, Hours and Minutes</h1>
+<table border="0" cellpadding="1" cellspacing="0" width="600" id="mainbg"><tr><td>
+<!-- The above table places the 1 pixel gray outline around the whole page -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="690" id="mainbg">
+  <tr>
+    <td width="690" valign="top" colspan="2">
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+
+          <td width="10"><img src="/spacer.gif" height="1" width="10" alt=""></td>
+          <td width="468" height="74" valign="middle">
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+
+<table border="0" cellspacing="0" cellpadding="0" width="690">
+<tr>
+<td width="500" valign="top">
+<table border="0" cellpadding="10" cellspacing="0" width="500">
+<tr>
+<td width="500" valign="top" class="content">
+<div align="center">
+
+<span class="red">Days, hours, minutes, and seconds between two dates</span>
+</div>
+
+	<form id="form">
+	<table cellpadding="3">
+		<tr>
+			<td colspan="2" align="center">Enter values in <font color="#800000">mm/dd/yy hh:mm:ss</font> format</td>
+		</tr>
+		<tr>
+			<td>First date and time(optional)</td>
+			<td><input type="text" placeholder = mm/dd/yy name="date1" /></td>
+		</tr>
+		<tr>
+			<td>Second date and time(optinal)</td>
+			<td><input type="text" placeholder = mm/dd/yy name="date2" /></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="button" name="submit" value="Calculate" onclick="calculate(this.form)" /></td>
+		</tr>
+		<tr>
+			<td>Result</td>
+			<td colspan="2"><input type="text" name="result" readonly="readonly"  size="40" /></td>
+		</tr>
+
+		<tr>
+			<td>In (decimal) hours</td>
+			<td colspan="2"><input type="text" name="result_h" readonly="readonly" /></td>
+		</tr>
+		<tr>
+			<td>In (decimal) minutes</td>
+			<td colspan="2"><input type="text" name="result_m" readonly="readonly" /></td>
+		</tr>
+		<tr>
+			<td>In seconds</td>
+			<td colspan="2"><input type="text" name="result_s" readonly="readonly" /></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
